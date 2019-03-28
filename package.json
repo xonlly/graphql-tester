@@ -1,0 +1,23 @@
+{
+  "name": "gqlTester",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-client": "^2.5.1",
+    "apollo-link": "^1.2.11",
+    "apollo-link-http": "^1.5.14",
+    "graphql": "^14.2.0",
+    "jest": "^24.5.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "tsc": "tsc"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.4000"
+  }
+}
