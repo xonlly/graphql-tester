@@ -1,51 +1,43 @@
-prototype
+# How to use
 
-```
-queryVariables = {
-  GetAllPoneys: async () => ({ dateStart: new Date(), dateEnd: new Date(), movieId: '' })
-}
+```js
+import gql from 'graphql';
+import graphqlTester from 'graphql-tester';
 
-gqlTester()
-  // optional
+const tester = new graphqlTester();
+
+tester
   .getOptions(async => {
-    const res = await fetch('exemple/login', {user, password});
+    const login = { user: '', password: '' };
+    const { token } = await fetch('route/login', login);
 
     return {
-      Authorization: `Bearer: ${res.token}`
+      uri: 'domain/graphql',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     }
   })
   .requests([
-    { name: 'GetAllPoneys', query: gql`query Get...`, /* parser, tests?, delay, variables? */ },
+    {
+      name: 'getAllUsers',
+      query: gql`query getUser ...`,
+      variables: async (queryName) => ({
+        dateStart: new Date(),
+        ...others
+      }),
+      parser: ({ data }) => ({
+        users: data.users
+      }),
+      tests: (parsedData, queryName) => {
+        describe(`test ${queryName}`, () => {
+          it('should be get users', () => {
+            expect(parsedData.users.length > 0).toBe(true)
+          })
+        })
+      }
+    }
   ])
-  // optional
-  .getVariables((queryName, query) => {
-    return queryVariables[queryName];
-  })
 
 
-// tests exemple for one query
-const tests = (variables, queryName) => {
-  describe(`test query ${queryName}`, () => {
-    it('should be ...', () => {
-      expect(variables.userName.length > 0).toBe(true)
-    })
-  })
-}
-
-// if no tests
-// autoTests system
-{
-  list: [{ a: '' }, { a: 'oui' }],
-  movie: {
-    theaters: [{
-      b: 'prospector'
-    }]
-  }
-}
 ```
-
-// Check all elements present
-Le test automatique check si il y a bien au minimum 1 element dans un tableau et qu'il y a bien au minimum un caractère par variable présent
-Si un element ne corespond pas il balance un warning.
-
-Il y a moyen de prévoir un outil qui dump les résultats automatiquement pour faire une meilleur comparaison. ( ne pas faire de systèmes de snap car les données chages )

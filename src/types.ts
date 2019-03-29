@@ -12,9 +12,9 @@ export declare type getVariablesCbType = (
 
 export declare type requestsType = {
   name: string;
-  delay: number | null;
-  query: object;
-  tests: (any, queryName: string) => never;
-  parser: (any) => any;
-  variables: (name: string) => any;
+  delay?: number | null;
+  query: any;
+  tests?: <T>(data: T, queryName: string) => Promise<never>;
+  parser?: <T>(data: T) => T;
+  variables: (name: string) => Promise<any>;
 };
